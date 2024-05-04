@@ -1,0 +1,29 @@
+# memakai versi 3.7
+version: "3.7"
+
+# membuat dua buah service: item-app dan item-db
+services:
+  item-app:
+    # menggunakan image item-app dari Docker hub
+    image: wildanfajriyan/item-app:v1
+    # port mapping agar dapat diakses di hosts
+    ports:
+      - 80:8080
+    # item-app berjalan setelah item-db diluncurkan
+    depends_on:
+      - item-db
+    # menerapkan restart policy
+    restart: always
+
+  item-db:
+    # menggunakan image mongo:3 dari Docker hub
+    image: mongo:3
+    # memakai volume bernama app-db dengan target /data/db
+    volumes:
+      - app-db:/data/db
+    # menerapkan restart policy
+    restart: always
+
+# membuat volume bernama app-db
+volumes:
+  app-db:
